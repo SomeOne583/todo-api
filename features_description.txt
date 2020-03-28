@@ -28,3 +28,12 @@ feature-2 {
     No añadí ActiveJobs, en su lugar use la gema Whenever para agendar un crontab
     ###################################################################################
 }
+
+feature-3 {
+    ###################################################################################
+    Enviar correos cuando te transfieren una tareas
+    ###################################################################################
+    Meta:
+    Cuando se actualice el user_id de una tarea se le envie un correo al nuevo dueño
+    ###################################################################################
+}
