@@ -39,5 +39,6 @@ module TodoApi
             resource '*', :headers => :any, :methods => :any
         end
     end
+    config.active_job.queue_adapter = :sidekiq
   end
 end

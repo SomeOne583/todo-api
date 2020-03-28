@@ -12,4 +12,19 @@ feature-1 {
     Meta:
     <function_name>(<code>, <body>)
     ###################################################################################
+    Resultado:
+    Funciono, la función se llama custom_render
+    ###################################################################################
+}
+
+feature-2 {
+    ###################################################################################
+    Añadir ActiveJobs
+    ###################################################################################
+    Meta:
+    Programar que en la medianoche de cada día se reinicien las tareas que se quedaron en el estado "En proceso"
+    ###################################################################################
+    Resultado:
+    No añadí ActiveJobs, en su lugar use la gema Whenever para agendar un crontab
+    ###################################################################################
 }
