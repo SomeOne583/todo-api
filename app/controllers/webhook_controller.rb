@@ -4,13 +4,58 @@ class WebhookController < ApplicationController
     def index
         case params[:options][:operation]
         when "c" # Create
-            c(params)
+            if !(params[:options].has_key? :task)
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "No task supplied"
+                    }
+                } and return
+            else
+                c(params)
+            end
         when "r" # Read
             r(params)
         when "u" # Update 
-            u(params)
+            if !(params[:options].has_key? :todo_id)
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "No todoID supplied"
+                    }
+                } and return
+            elsif !((params[:options].has_key? :new_task) || (params[:options].has_key? :new_state) || (params[:options].has_key? :new_email))
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "Nothing to change"
+                    }
+                } and return
+            else
+                if params[:options].has_key? :new_email
+                    user = User.find_by email: params[:options][:todo_id]
+                    if !user
+                        render json: {
+                            "error": {
+                                "code": 404,
+                                "body": "The user doesn't exist"
+                            }
+                        } and return
+                    end
+                end
+                u(params)
+            end
         when "d" # Destroy
-            d(params)
+            if !(params[:options].has_key? :todo_id)
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "No todoID supplied"
+                    }
+                } and return
+            else
+                d(params)
+            end
         end
     end
     
@@ -49,7 +94,12 @@ class WebhookController < ApplicationController
         params[:options][:new_state] ||= todo[:state]
         params[:options][:new_user_id] ||= current_user[:id]
         if (todo[:state] == "Terminada") || ((todo[:state] == "Nueva") && (params[:options][:new_state] == "Terminada"))
-            render json: {"Code": 400, "Details": "This change is impossible"}
+            render json: {
+                "error": {
+                    "code": 400,
+                    "body": "Can't go from new to finished"
+                }
+            } and return
         end
         if todo[:user_id].to_s == current_user[:id].to_s
             todo_params = {
@@ -68,8 +118,12 @@ class WebhookController < ApplicationController
     def d(params)
         todo = Todo.find_by id: params[:options][:todo_id]
         if todo[:state] == "Terminada"
-            render json: {"Code": 400, "Details": "Can't delete that todo"}
-            return
+            render json: {
+                "error": {
+                    "code": 400,
+                    "body": "Can't delete a finished task"
+                }
+            } and return
         end
         if current_user[:id].to_s == todo[:user_id].to_s
             render json: todo.destroy
