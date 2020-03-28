@@ -33,7 +33,7 @@ class WebhookController < ApplicationController
                 } and return
             else
                 if params[:options].has_key? :new_email
-                    user = User.find_by email: params[:options][:todo_id]
+                    user = User.find_by email: params[:options][:new_email]
                     if !user
                         render json: {
                             "error": {
