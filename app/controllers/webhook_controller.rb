@@ -5,12 +5,7 @@ class WebhookController < ApplicationController
         case params[:options][:operation]
         when "c" # Create
             if !(params[:options].has_key? :task)
-                render json: {
-                    "error": {
-                        "code": 400,
-                        "body": "No task supplied"
-                    }
-                } and return
+                custom_render(400, "No task supplied")
             else
                 c(params)
             end
@@ -18,30 +13,15 @@ class WebhookController < ApplicationController
             r(params)
         when "u" # Update 
             if !(params[:options].has_key? :todo_id)
-                render json: {
-                    "error": {
-                        "code": 400,
-                        "body": "No todoID supplied"
-                    }
-                } and return
+                custom_render(400, "No todoID supplied")
             elsif !((params[:options].has_key? :new_task) || (params[:options].has_key? :new_state) || (params[:options].has_key? :new_email))
-                render json: {
-                    "error": {
-                        "code": 400,
-                        "body": "Nothing to change"
-                    }
-                } and return
+                custom_render(400, "Nothing to change")
             else
                 u(params)
             end
         when "d" # Destroy
             if !(params[:options].has_key? :todo_id)
-                render json: {
-                    "error": {
-                        "code": 400,
-                        "body": "No todoID supplied"
-                    }
-                } and return
+                custom_render(400, "No todoID supplied")
             else
                 d(params)
             end
@@ -81,12 +61,7 @@ class WebhookController < ApplicationController
         if params[:options].has_key? :new_email
             user = User.find_by email: params[:options][:new_email]
             if !user
-                render json: {
-                    "error": {
-                        "code": 404,
-                        "body": "The user doesn't exist"
-                    }
-                } and return
+                custom_render(404, "The user doesn't exist")
             end
         end
         todo = Todo.find_by id: params[:options][:todo_id]
@@ -95,12 +70,7 @@ class WebhookController < ApplicationController
             params[:options][:new_state] ||= todo[:state]
             params[:options][:new_user_id] ||= current_user[:id]
             if (todo[:state] == "Terminada") || ((todo[:state] == "Nueva") && (params[:options][:new_state] == "Terminada"))
-                render json: {
-                    "error": {
-                        "code": 400,
-                        "body": "Can't go from new to finished"
-                    }
-                } and return
+                custom_render(400, "Can't go from new to finished")
             end
             if todo[:user_id].to_s == current_user[:id].to_s
                 todo_params = {
@@ -114,18 +84,10 @@ class WebhookController < ApplicationController
                     render json: todo.errors
                 end
             else
-                render json: {
-                    "error": 401,
-                    "body": "You don't have permission"
-                } and return
+                custom_render(401, "You don't have permission")
             end
         else
-            render json: {
-                "error": {
-                    "code": 404,
-                    "body": "Todo not found"
-                }
-            } and return
+            custom_render(404, "Todo not found")
         end
     end
 
@@ -133,30 +95,15 @@ class WebhookController < ApplicationController
         todo = Todo.find_by id: params[:options][:todo_id]
         if todo
             if todo[:state] == "Terminada"
-                render json: {
-                    "error": {
-                        "code": 400,
-                        "body": "Can't delete a finished task"
-                    }
-                } and return
+                custom_render(400, "Can't delete a finished task")
             end
             if current_user[:id].to_s == todo[:user_id].to_s
                 render json: todo.destroy
             else
-                render json: {
-                    "error": {
-                        "code": 401,
-                        "body": "You don't have permission"
-                    }
-                }
+                custom_render(401, "You don't have permission")
             end
         else
-            render json: {
-                "error": {
-                    "code": 404,
-                    "body": "Todo not found"
-                }
-            } and return
+            custom_render(404, "Todo not found")
         end
     end
 end
