@@ -4,13 +4,47 @@ class WebhookController < ApplicationController
     def index
         case params[:options][:operation]
         when "c" # Create
-            c(params)
+            if !(params[:options].has_key? :task)
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "No task supplied"
+                    }
+                } and return
+            else
+                c(params)
+            end
         when "r" # Read
             r(params)
         when "u" # Update 
-            u(params)
+            if !(params[:options].has_key? :todo_id)
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "No todoID supplied"
+                    }
+                } and return
+            elsif !((params[:options].has_key? :new_task) || (params[:options].has_key? :new_state) || (params[:options].has_key? :new_email))
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "Nothing to change"
+                    }
+                } and return
+            else
+                u(params)
+            end
         when "d" # Destroy
-            d(params)
+            if !(params[:options].has_key? :todo_id)
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "No todoID supplied"
+                    }
+                } and return
+            else
+                d(params)
+            end
         end
     end
     
@@ -44,35 +78,85 @@ class WebhookController < ApplicationController
     end
     
     def u(params)
-        todo = Todo.find_by id: params[:options][:todo_id]
-        params[:options][:new_task] ||= todo[:task]
-        params[:options][:new_state] ||= todo[:state]
-        params[:options][:new_user_id] ||= current_user[:id]
-        if (todo[:state] == "Terminada") || ((todo[:state] == "Nueva") && (params[:options][:new_state] == "Terminada"))
-            render json: {"Code": 400, "Details": "This change is impossible"}
-        end
-        if todo[:user_id].to_s == current_user[:id].to_s
-            todo_params = {
-                task: params[:options][:new_task],
-                state: params[:options][:new_state],
-                user_id: params[:options][:new_user_id]
-            }
-            if todo.update(todo_params)
-                render json: todo
-            else
-                render json: todo.errors
+        if params[:options].has_key? :new_email
+            user = User.find_by email: params[:options][:new_email]
+            if !user
+                render json: {
+                    "error": {
+                        "code": 404,
+                        "body": "The user doesn't exist"
+                    }
+                } and return
             end
+        end
+        todo = Todo.find_by id: params[:options][:todo_id]
+        if todo
+            params[:options][:new_task] ||= todo[:task]
+            params[:options][:new_state] ||= todo[:state]
+            params[:options][:new_user_id] ||= current_user[:id]
+            if (todo[:state] == "Terminada") || ((todo[:state] == "Nueva") && (params[:options][:new_state] == "Terminada"))
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "Can't go from new to finished"
+                    }
+                } and return
+            end
+            if todo[:user_id].to_s == current_user[:id].to_s
+                todo_params = {
+                    task: params[:options][:new_task],
+                    state: params[:options][:new_state],
+                    user_id: params[:options][:new_user_id]
+                }
+                if todo.update(todo_params)
+                    render json: todo
+                else
+                    render json: todo.errors
+                end
+            else
+                render json: {
+                    "error": 401,
+                    "body": "You don't have permission"
+                } and return
+            end
+        else
+            render json: {
+                "error": {
+                    "code": 404,
+                    "body": "Todo not found"
+                }
+            } and return
         end
     end
 
     def d(params)
         todo = Todo.find_by id: params[:options][:todo_id]
-        if todo[:state] == "Terminada"
-            render json: {"Code": 400, "Details": "Can't delete that todo"}
-            return
-        end
-        if current_user[:id].to_s == todo[:user_id].to_s
-            render json: todo.destroy
+        if todo
+            if todo[:state] == "Terminada"
+                render json: {
+                    "error": {
+                        "code": 400,
+                        "body": "Can't delete a finished task"
+                    }
+                } and return
+            end
+            if current_user[:id].to_s == todo[:user_id].to_s
+                render json: todo.destroy
+            else
+                render json: {
+                    "error": {
+                        "code": 401,
+                        "body": "You don't have permission"
+                    }
+                }
+            end
+        else
+            render json: {
+                "error": {
+                    "code": 404,
+                    "body": "Todo not found"
+                }
+            } and return
         end
     end
 end
