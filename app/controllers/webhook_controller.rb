@@ -25,6 +25,8 @@ class WebhookController < ApplicationController
             else
                 d(params)
             end
+        when "n" # Read notifications
+            n(params)
         end
     end
     
@@ -62,6 +64,16 @@ class WebhookController < ApplicationController
             user = User.find_by email: params[:options][:new_email]
             if !user
                 custom_render(404, "The user doesn't exist")
+            else
+                notification = NotificationPanel.new(
+                    {
+                        notification: "El usuario %s te transfirió una tarea" % current_user[:email],
+                        user_id: user[:id]
+                    }
+                )
+                notification.save
+                params[:options][:new_state] = "Nueva"
+                params[:options][:new_user_id] = user[:id]
             end
         end
         todo = Todo.find_by id: params[:options][:todo_id]
@@ -105,5 +117,16 @@ class WebhookController < ApplicationController
         else
             custom_render(404, "Todo not found")
         end
+    end
+
+    def n(params)
+        notifications = []
+        NotificationPanel.find_each do
+            |notification|
+            if notification[:user_id].to_s == current_user[:id].to_s
+                notifications << notification
+            end
+        end
+        render json: notifications
     end
 end

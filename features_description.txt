@@ -31,9 +31,11 @@ feature-2 {
 
 feature-3 {
     ###################################################################################
-    Enviar correos cuando te transfieren una tareas
+    Generar una tabla con notificaciones
     ###################################################################################
     Meta:
-    Cuando se actualice el user_id de una tarea se le envie un correo al nuevo dueño
+    Cuando se transfiere una tarea se agrega una entrada a la tabla de notificaciones
     ###################################################################################
+    Resultado:
+    Cada que se actualiza una tarea 
 }
