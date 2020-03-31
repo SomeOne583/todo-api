@@ -16,10 +16,8 @@ RSpec.describe "Webhooks", type: :request do
                     operation: "c"
                 }
             }
-            post '/webhook', headers: auth_headers, params: params
-            response_evaluated = eval(response.body)
-            expect(response_evaluated).to have_key(:error)
-            expect(response_evaluated[:error][:body]).to eq("No task supplied")
+            expect {post '/webhook', headers: auth_headers, params: params}
+            .to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: task")
         end
 
         it "create todo w/ params" do
@@ -70,10 +68,8 @@ RSpec.describe "Webhooks", type: :request do
                     operation: "u"
                 }
             }
-            post '/webhook', headers: auth_headers, params: params
-            response_evaluated = eval(response.body)
-            expect(response_evaluated).to have_key(:error)
-            expect(response_evaluated[:error][:body]).to eq("No todoID supplied")
+            expect {post '/webhook', headers: auth_headers, params: params}
+            .to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: todo_id")
         end
         
         it "update w/o change" do
@@ -130,10 +126,8 @@ RSpec.describe "Webhooks", type: :request do
                     operation: "d"
                 }
             }
-            post '/webhook', headers: auth_headers, params: params
-            response_evaluated = eval(response.body)
-            expect(response_evaluated).to have_key(:error)
-            expect(response_evaluated[:error][:body]).to eq("No todoID supplied")
+            expect {post '/webhook', headers: auth_headers, params: params}
+            .to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: todo_id")
         end
 
         it "destroy w/ params" do
