@@ -2,36 +2,33 @@ class WebhookController < ApplicationController
     before_action :authenticate_user!
 
     def index
-        print params
         case params[:options][:operation]
         when "c" # Create
-            if !(params[:options].has_key? :task)
-                custom_render(400, "No task supplied")
-            else
-                c(params)
-            end
+            params[:options].require(:task)
+            c(params)
         when "r" # Read
             r(params)
         when "u" # Update 
-            if !(params[:options].has_key? :todo_id)
-                custom_render(400, "No todoID supplied")
-            elsif !((params[:options].has_key? :new_task) || (params[:options].has_key? :new_state) || (params[:options].has_key? :new_email))
+            params[:options].require(:todo_id)
+            if !((params[:options].has_key? :new_task) || (params[:options].has_key? :new_state) || (params[:options].has_key? :new_email))
                 custom_render(400, "Nothing to change")
             else
                 u(params)
             end
         when "d" # Destroy
-            if !(params[:options].has_key? :todo_id)
-                custom_render(400, "No todoID supplied")
-            else
-                d(params)
-            end
+            params[:options].require(:todo_id)
+            d(params)
         when "n" # Read notifications
             n(params)
         end
     end
     
-    private 
+    private
+
+    def webhook_params
+        params.require(:options)
+        params[:options].require(:operation).permit!
+    end
     
     def c(params)
         task_provided = params[:options][:task]
