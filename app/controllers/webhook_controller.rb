@@ -1,7 +1,8 @@
 class WebhookController < ApplicationController
     before_action :authenticate_user!
-    
+
     def index
+        print params
         case params[:options][:operation]
         when "c" # Create
             if !(params[:options].has_key? :task)

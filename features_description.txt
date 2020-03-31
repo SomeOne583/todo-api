@@ -48,3 +48,8 @@ feature-4 {
     Tener tests de rspec para cada posible request
     ###################################################################################
 }
+
+feature-5 {
+    ###################################################################################
+    Refactor para añadir .permit a los params en Webhook controller
+}
