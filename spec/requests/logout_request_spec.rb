@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'devise/jwt/test_helpers'
 
 RSpec.describe "Log out", type: :request do
-    let(:host) { 'localhost:3000' }
+    let(:host) { Rails.application.credentials.host }
     let(:params) {
         {
             user: {

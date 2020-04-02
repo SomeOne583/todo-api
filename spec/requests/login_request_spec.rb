@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Log in", type: :request do
-    let(:host) { 'localhost:3000' }
+    let(:host) { Rails.application.credentials.host }
     let(:params) {
         {
             user: {
