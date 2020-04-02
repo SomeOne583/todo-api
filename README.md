@@ -1,3 +1,5 @@
+No olvides que tienes un crontab que iniciar con whenever
+
 # README
 
 This README would normally document whatever steps are necessary to get the

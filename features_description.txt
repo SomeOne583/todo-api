@@ -1,0 +1,56 @@
+feature-1 {
+    ###################################################################################
+    Añadir una función personalizada para evitar la repetitividad en los "render json:"
+    ###################################################################################
+    Inicio:
+    render json: {
+        "error": {
+            "code": <code>,
+            "body": <body>
+        }
+    } and return
+    Meta:
+    <function_name>(<code>, <body>)
+    ###################################################################################
+    Resultado:
+    Funciono, la función se llama custom_render
+    ###################################################################################
+}
+
+feature-2 {
+    ###################################################################################
+    Añadir ActiveJobs
+    ###################################################################################
+    Meta:
+    Programar que en la medianoche de cada día se reinicien las tareas que se quedaron en el estado "En proceso"
+    ###################################################################################
+    Resultado:
+    No añadí ActiveJobs, en su lugar use la gema Whenever para agendar un crontab
+    ###################################################################################
+}
+
+feature-3 {
+    ###################################################################################
+    Generar una tabla con notificaciones
+    ###################################################################################
+    Meta:
+    Cuando se transfiere una tarea se agrega una entrada a la tabla de notificaciones
+    ###################################################################################
+    Resultado:
+    Cada que se actualiza una tarea 
+}
+
+feature-4 {
+    ###################################################################################
+    Generar todos los test con rspec
+    ###################################################################################
+    Meta:
+    Tener tests de rspec para cada posible request
+    ###################################################################################
+}
+
+feature-5 {
+    ###################################################################################
+    Refactor para añadir .permit a los params en Webhook controller
+    ###################################################################################
+}
