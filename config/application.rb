@@ -35,7 +35,7 @@ module TodoApi
     config.api_only = true
     config.middleware.insert_before 0, Rack::Cors do
         allow do
-            origins '201.172.97.169'
+            origins '*'
             resource '*', headers: :any, methods: [:get, :post, :delete], expose: ["Authorization"]
         end
     end
