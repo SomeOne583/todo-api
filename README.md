@@ -13,7 +13,7 @@ Es una API para manejar una página de tareas, la página esta alojada en:
   * pg_password: Contraseña de postgresql
   * jwt_secret: Clave para que devise-jwt encripte las contraseñas
   * frontend: URL del frontend que lo administrara
-* Para crear la base de datos usa:
+Para crear la base de datos usa:
   $ rake db:create
 
 * How to run the test suite
