@@ -20,9 +20,10 @@ Variables definidas en rails credentials:
 
 Para crear la base de datos usa:
 
-´´´
+```
 $ rake db:create
-´´´
+$ rake db:migrate
+```
 
 * How to run the test suite
 
