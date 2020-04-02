@@ -9,6 +9,7 @@ Es una API para manejar una página de tareas, la página esta alojada en:
 * Metodos válidos: [get, post, delete]
 * Base de datos: PostgreSQL
 * Variables definidas en rails credentials:
+  * Test
 
 * Configuration
 
