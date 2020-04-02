@@ -14,10 +14,10 @@ Es una API para manejar una página de tareas, la página esta alojada en:
   * jwt_secret: Clave para que devise-jwt encripte las contraseñas
   * frontend: URL del frontend que lo administrara
 * Para crear la base de datos usa:
-  ´´´ruby
-  rake db:create
-  rake db:migrate
-  ´´´
+'''
+rake db:create
+rake db:migrate
+'''
 
 * How to run the test suite
 
