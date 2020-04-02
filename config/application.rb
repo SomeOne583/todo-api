@@ -39,5 +39,6 @@ module TodoApi
             resource '*', headers: :any, methods: [:get, :post, :delete], expose: ["Authorization"]
         end
     end
+    # config.autoloader = :classic
   end
 end
