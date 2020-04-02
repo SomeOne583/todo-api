@@ -1,15 +1,14 @@
-No olvides que tienes un crontab que iniciar con whenever
+# Todo-API
 
-# README
+Es una API para manejar una página de tareas, la página esta alojada en: 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Datos técnicos
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
+* Versión de Ruby: 2.7
+* Versión de Rails: 6.0.2.2
+* Metodos válidos: [get, post, delete]
+* Base de datos: PostgreSQL
+* Variables definidas en rails credentials:
 
 * Configuration
 
@@ -24,3 +23,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+No olvides que tienes un crontab que iniciar con whenever
