@@ -36,7 +36,7 @@ module TodoApi
     config.middleware.insert_before 0, Rack::Cors do
         allow do
             origins Rails.application.credentials.frontend
-            resource '*', headers: :any, methods: [:get, :post, :delete], expose: %w(Authorization)
+            resource '*', headers: :any, methods: [:get, :post, :delete], expose: ["Authorization"]
         end
     end
     # config.autoloader = :classic
