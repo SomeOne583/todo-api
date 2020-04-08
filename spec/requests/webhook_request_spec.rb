@@ -13,7 +13,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "c"
+                    operation: "create"
                 }
             }
             expect {post '/webhook', headers: auth_headers, params: params}
@@ -28,7 +28,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "c",
+                    operation: "create",
                     task: "Test"
                 }
             }
@@ -49,7 +49,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "r"
+                    operation: "read"
                 }
             }
             post '/webhook', headers: auth_headers, params: params
@@ -65,7 +65,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "u"
+                    operation: "update"
                 }
             }
             expect {post '/webhook', headers: auth_headers, params: params}
@@ -80,7 +80,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "u",
+                    operation: "update",
                     todo_id: 1
                 }
             }
@@ -100,7 +100,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "u",
+                    operation: "update",
                     todo_id: 1,
                     new_task: "Test2"
                 }
@@ -123,7 +123,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "d"
+                    operation: "destroy"
                 }
             }
             expect {post '/webhook', headers: auth_headers, params: params}
@@ -140,7 +140,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "d",
+                    operation: "destroy",
                     todo_id: 1
                 }
             }
@@ -160,7 +160,7 @@ RSpec.describe "Webhooks", type: :request do
             auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
             params = ApplicationController::render json: {
                 options: {
-                    operation: "n"
+                    operation: "notifications"
                 }
             }
             post '/webhook', headers: auth_headers, params: params
@@ -174,7 +174,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "c"
+                    operation: "create"
                 }
             }
             post '/webhook', headers: headers, params: params
@@ -187,7 +187,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "c",
+                    operation: "create",
                     task: "Test"
                 }
             }
@@ -202,7 +202,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "r"
+                    operation: "read"
                 }
             }
             post '/webhook', headers: headers, params: params
@@ -215,7 +215,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "u"
+                    operation: "update"
                 }
             }
             post '/webhook', headers: headers, params: params
@@ -228,7 +228,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "u",
+                    operation: "update",
                     todo_id: 1
                 }
             }
@@ -242,7 +242,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "u",
+                    operation: "update",
                     todo_id: 1,
                     new_task: "Test2"
                 }
@@ -257,7 +257,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "d"
+                    operation: "destroy"
                 }
             }
             post '/webhook', headers: headers, params: params
@@ -270,7 +270,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "d",
+                    operation: "destroy",
                     todo_id: 1
                 }
             }
@@ -284,7 +284,7 @@ RSpec.describe "Webhooks", type: :request do
             headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
             params = ApplicationController::render json: {
                 options: {
-                    operation: "n"
+                    operation: "notifications"
                 }
             }
             post '/webhook', headers: headers, params: params
