@@ -95,7 +95,7 @@ class WebhookController < ApplicationController
             if todo[:state] == "Terminada"
                 custom_render(400, "Can't delete a finished task")
             end
-            # render json: todo.destroy
+            todo.destroy
         else
             custom_render(404, "Todo not found")
         end
