@@ -54,7 +54,7 @@ class WebhookController < ApplicationController
     def update(params)
       todo = Todo.find_by id: params[:options][:todo_id]
       if (todo) && (todo.user == current_user)
-        if (params[:options].has_key? :new_email) && (params[:options][:new_email] != current_user.email)
+        if (params[:options].has_key? :new_email) && (params[:options][:new_email] != current_user[:email])
           user = User.find_by email: params[:options][:new_email]
           if !user
             custom_render(404, "The user doesn't exist")
