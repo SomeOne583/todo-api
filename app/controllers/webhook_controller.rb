@@ -20,8 +20,8 @@ class WebhookController < ApplicationController
             destroy(params)
         when "notifications"
             notifications(params)
-        when "delete_notification"
-            delete_notification(params)
+        when "destroy_notification"
+            destroy_notification(params)
         end
     end
     
@@ -108,7 +108,7 @@ class WebhookController < ApplicationController
         render json: notifications
     end
 
-    def delete_notification(params)
+    def destroy_notification(params)
         notification = NotificationPanel.find_by id: params[:options][:notification_id]
         if (notification) && (notification.user == current_user)
             notification.destroy
