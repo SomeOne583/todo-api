@@ -110,11 +110,6 @@ class WebhookController < ApplicationController
 
     def destroy_notification(params)
         notification = NotificationPanel.find_by id: params[:options][:notification_id]
-        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        puts notification
-        puts notification.user
-        puts current_user
-        puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         if (notification) && (notification.user == current_user)
             notification.destroy
         else
