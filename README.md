@@ -1,6 +1,6 @@
 # Todo-API
 
-Es una API para manejar una página de tareas, la página esta alojada en: 
+Es una API para manejar una página de tareas, la página esta alojada en: http://todo-web-177.herokuapp.com
 
 # Datos técnicos
 
@@ -13,8 +13,6 @@ Metodos válidos: [get, post, delete]
 Base de datos: PostgreSQL
 
 Variables definidas en rails credentials:
-  * pg_user: Usuario de postgresql
-  * pg_password: Contraseña de postgresql
   * jwt_secret: Clave para que devise-jwt encripte las contraseñas
   * frontend: URL del frontend que lo administrara
   * host: Es para saber a donde hacer las requests en los test
@@ -22,8 +20,7 @@ Variables definidas en rails credentials:
 Para crear la base de datos usa:
 
 ```
-$ rake db:create
-$ rake db:migrate
+$ rake db:schema:load
 ```
 
 # Testing
